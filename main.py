@@ -9,7 +9,7 @@ from random import *
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('untitled.ui', self)
+        self.setGeometry(0, 0, 900, 900)
         self.do_paint = True
 
     def paint(self):
