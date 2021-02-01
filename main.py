@@ -4,13 +4,14 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import *
+from UI.main1 import Ui_Form
+from UI.addEditCoffeeForm import Ui_Form as Ui_Form2
 
 
-class Form(QMainWindow):
+class Form(QMainWindow, Ui_Form2):
     def __init__(self, table):
         super().__init__()
-        uic.loadUi("addEditCoffeeForm.ui", self)
-        self.connection = sqlite3.connect("coffee.sqlite", timeout=10)
+        self.connection = sqlite3.connect("data/coffee.sqlite", timeout=10)
         cur = self.connection.cursor()
         self.cur = cur
         self.tableWidget = table
@@ -21,7 +22,7 @@ class Form(QMainWindow):
             self.comboBox.addItem(i[0])
 
     def add(self):
-        self.connection = sqlite3.connect("coffee.sqlite")
+        self.connection = sqlite3.connect("data/coffee.sqlite")
         self.cur = self.connection.cursor()
         id = self.cur.execute("SELECT MAX(id) FROM coffee").fetchone()[0] + 1
         self.cur.execute(f"""INSERT INTO coffee(id, name, degree, is_ground, taste, price, value) 
@@ -33,7 +34,7 @@ class Form(QMainWindow):
         result = self.cur.execute(req).fetchall()
         cols = self.tableWidget.rowCount() + 1
         for i, row in enumerate(result):
-            self.tableWidget.setRowCount(
+            self.tableWidgetsetRowCount(
                 cols)
             self.tableWidget.setItem(
                 i, 0, QTableWidgetItem(str(row[0])))
@@ -54,11 +55,10 @@ class Form(QMainWindow):
         self.close()
 
 
-class MyWidget(QWidget):
+class MyWidget(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
-        uic.loadUi("main.ui", self)
-        self.connection = sqlite3.connect("coffee.sqlite")
+        self.connection = sqlite3.connect("data/coffee.sqlite")
         cur = self.connection.cursor()
         self.cur = cur
         req = "SELECT * FROM coffee"
@@ -88,7 +88,7 @@ class MyWidget(QWidget):
         global form
         form = Form(table=self.tableWidget)
         form.show()
-        self.connection = sqlite3.connect("coffee.sqlite")
+        self.connection = sqlite3.connect("data/coffee.sqlite")
         cur = self.connection.cursor()
         req = "SELECT * FROM coffee"
         result = cur.execute(req).fetchall()
