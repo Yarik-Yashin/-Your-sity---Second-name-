@@ -1,43 +1,36 @@
+import sqlite3
 import sys
-from PyQt5 import uic  # Импортируем uic
+
+from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore, QtMultimedia
-from PyQt5.QtGui import QPixmap, QPainter, QColor
-from random import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtSql import *
 
 
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setGeometry(0, 0, 900, 900)
-        self.do_paint = True
+        uic.loadUi('main.ui', self)
+        db = QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('coffee.sqlite')
+        db.open()
+        query = QSqlQuery()
+        query.exec(
 
-    def paint(self):
-        self.do_paint = True
-        self.repaint()
-
-    def paintEvent(self, event):
-        if self.do_paint:
-            # Создаем объект QPainter для рисования
-            qp = QPainter()
-            # Начинаем процесс рисования
-            qp.begin(self)
-            self.draw_flag(qp)
-            # Завершаем рисование
-            qp.end()
-
-    def draw_flag(self, qp):
-        # Задаем кисть
-        try:
-            qp.setBrush(QColor('Yellow'))
-            a = randint(1, 100)
-            qp.drawEllipse(200, 200, a, a)
-        except ValueError:
-            pass
+            """
+               SELECT * FROM coffee
+                """
+        )
+        model = QSqlTableModel(self, db)
+        model.setQuery(query)
+        model.select()
+        self.tableView.setModel(model)
+        self.model = model
+        self.query = query
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MyWidget()
     ex.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
