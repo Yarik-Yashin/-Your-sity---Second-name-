@@ -6,21 +6,69 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>721</width>
-    <height>697</height>
+    <width>1017</width>
+    <height>856</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableView" name="tableView">
+  <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>25</x>
-     <y>70</y>
-     <width>681</width>
-     <height>581</height>
+     <x>0</x>
+     <y>30</y>
+     <width>1021</width>
+     <height>831</height>
     </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>ИД</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>degree</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>is_ground</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>taste</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>price</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>value</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>89</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Добавить</string>
    </property>
   </widget>
  </widget>
